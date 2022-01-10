@@ -260,7 +260,7 @@ namespace Interactions {
         for(std::vector<SafePtr<MonochromaticMF> >::const_iterator pw = fWaves.begin(); pw!=fWaves.end(); pw++){
             (*pw)->GetValueGauss(x, aTime, wave);
             for(uint i=0; i<3; i++)
-                outValue[i] += (wave[i]);
+                outValue[i] += std::sqrt(2)*(wave[i]);
         }
     }
 
@@ -276,9 +276,9 @@ namespace Interactions {
         std::vector<double> norms;
         std::vector<double> Ks;
         double sumNorm = 0;
-        for(double k = 1./fLc/16.; k*fLc < 4e4; k*=aMultK){//here we limit the range of waves by condition normK>~1e-3
+        for(double k = 2*M_PI/(5.*fLc); k < 100*2*M_PI/(5.*fLc); k*=aMultK){//here we limit the range of waves by condition normK>~1e-3
             Ks.push_back(k);
-            double normK = k*k*k/(1.+pow(k*fLc,gamma));
+            double normK = k*k*k*pow(k*fLc,-gamma));
             norms.push_back(normK);
             sumNorm += normK;
             fWaves.push_back(0);
